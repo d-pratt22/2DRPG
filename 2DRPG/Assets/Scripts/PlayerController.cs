@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviourPun
 
     public static PlayerController me;
 
+    public HeaderInfo headerInfo;
+
     void Update()
     {
         if (!photonView.IsMine)
@@ -65,9 +67,11 @@ public class PlayerController : MonoBehaviourPun
     
         if (hit.collider != null && hit.collider.gameObject.CompareTag("Enemy"))
         {
-           
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            enemy.photonView.RPC("TakeDamage", RpcTarget.MasterClient, damage);
+
         }
-       
+
         weaponAnim.SetTrigger("Attack");
     }
 
@@ -86,6 +90,7 @@ public class PlayerController : MonoBehaviourPun
                 sr.color = Color.red;
                 yield return new WaitForSeconds(0.05f);
                 sr.color = Color.white;
+               // headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
             }
         }
     }
@@ -105,7 +110,8 @@ public class PlayerController : MonoBehaviourPun
         transform.position = spawnPos;
         curHp = maxHp;
         rig.isKinematic = false;
-     
+       // headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
+
     }
 
     [PunRPC]
@@ -120,18 +126,23 @@ public class PlayerController : MonoBehaviourPun
             rig.isKinematic = true;
 
         GameManager.instance.players[id - 1] = this;
+
+        headerInfo.Initialize(player.NickName, maxHp);
+
     }
 
     [PunRPC]
     void Heal(int amountToHeal)
     {
         curHp = Mathf.Clamp(curHp + amountToHeal, 0, maxHp);
+        //headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
     }
 
     [PunRPC]
     void GiveGold(int goldToGive)
     {
         gold += goldToGive;
+        GameUI.instance.UpdateGoldText(gold);
     }
 
 }

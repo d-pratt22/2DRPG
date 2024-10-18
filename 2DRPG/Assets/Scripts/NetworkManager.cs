@@ -16,7 +16,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -42,7 +42,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomName);
     }
 
-    public void ChangeScene(string sceneName)
+    [PunRPC]
+    public void ChangeScene (string sceneName)
     {
         PhotonNetwork.LoadLevel(sceneName);
     }
