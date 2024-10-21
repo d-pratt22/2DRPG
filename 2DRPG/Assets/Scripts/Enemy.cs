@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using System.Numerics;
+
 
 public class Enemy : MonoBehaviourPun
 {
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviourPun
         if (targetPlayer != null)
         {
           
-            float dist = UnityEngine.Vector3.Distance(transform.position, targetPlayer.transform.position);
+            float dist = Vector2.Distance(transform.position, targetPlayer.transform.position);
 
          
             if (dist < attackRange && Time.time - lastAttackTime >= attackRange)
@@ -49,12 +49,12 @@ public class Enemy : MonoBehaviourPun
           
             else if (dist > attackRange)
             {
-                UnityEngine.Vector3 dir = targetPlayer.transform.position - transform.position;
+                Vector2 dir = targetPlayer.transform.position - transform.position;
                 rig.velocity = dir.normalized * moveSpeed;
             }
             else
             {
-                rig.velocity = UnityEngine.Vector2.zero;
+                rig.velocity = Vector2.zero;
             }
         }
         DetectPlayer();
@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviourPun
             foreach (PlayerController player in GameManager.instance.players)
             {
               
-                float dist = UnityEngine.Vector2.Distance(transform.position, player.transform.position);
+                float dist = Vector2.Distance(transform.position, player.transform.position);
                 if (player == targetPlayer)
                 {
                     if (dist > chaseRange)
@@ -93,8 +93,8 @@ public class Enemy : MonoBehaviourPun
     public void TakeDamage(int damage)
     {
         curHp -= damage;
-        // update the health bar
-       // healthBar.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
+       
+       healthBar.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
         if (curHp <= 0)
             Die();
         else
@@ -118,7 +118,7 @@ public class Enemy : MonoBehaviourPun
     void Die()
     {
         if (objectToSpawnOnDeath != string.Empty)
-            PhotonNetwork.Instantiate(objectToSpawnOnDeath, transform.position, UnityEngine.Quaternion.identity);
+            PhotonNetwork.Instantiate(objectToSpawnOnDeath, transform.position, Quaternion.identity);
      
         PhotonNetwork.Destroy(gameObject);
     }

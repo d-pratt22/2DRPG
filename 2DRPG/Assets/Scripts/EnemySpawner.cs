@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviourPun
             return;
       
         Vector3 randomInCircle = Random.insideUnitCircle * spawnRadius;
-        GameObject enemy = PhotonNetwork.Instantiate(enemyPrefabPath, transform.position /*randomInsideCircle*/, Quaternion.identity);
+        GameObject enemy = PhotonNetwork.Instantiate(enemyPrefabPath, transform.position + randomInCircle, Quaternion.identity);
         curEnemies.Add(enemy);
     }
 

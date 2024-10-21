@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviourPun
     public int curHp;
     public int maxHp;
     public bool dead;
+    public string NickName;
 
     [Header("Attack")]
     public int damage;
@@ -43,9 +44,9 @@ public class PlayerController : MonoBehaviourPun
 
         float mouseX = (Screen.width / 2) - Input.mousePosition.x;
         if (mouseX < 0)
-            weaponAnim.transform.parent.localScale = new Vector3(-1, 1, 1);
-        else
             weaponAnim.transform.parent.localScale = new Vector3(1, 1, 1);
+        else
+            weaponAnim.transform.parent.localScale = new Vector3(-1, 1, 1);
     }
 
     void Move()
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviourPun
                 sr.color = Color.red;
                 yield return new WaitForSeconds(0.05f);
                 sr.color = Color.white;
-               // headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
+                headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
             }
         }
     }
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviourPun
         transform.position = spawnPos;
         curHp = maxHp;
         rig.isKinematic = false;
-       // headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
+       headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
 
     }
 
@@ -135,7 +136,7 @@ public class PlayerController : MonoBehaviourPun
     void Heal(int amountToHeal)
     {
         curHp = Mathf.Clamp(curHp + amountToHeal, 0, maxHp);
-        //headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
+        headerInfo.photonView.RPC("UpdateHealthBar", RpcTarget.All, curHp);
     }
 
     [PunRPC]

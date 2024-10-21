@@ -205,11 +205,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Enemy
   moveSpeed: 3
-  curHp: 10
-  maxHp: 10
+  curHp: 20
+  maxHp: 20
   chaseRange: 5
-  attackRange: 0.5
-  playerDetectRate: 0.2
+  attackRange: 5
+  playerDetectRate: 10
   objectToSpawnOnDeath: GoldPickup
   damage: 5
   attackRate: 0.5
@@ -227,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 1378897830978140293, guid: d38d33a376171e44ea2a9883cc58f32a, type: 3}
       propertyPath: m_Name
       value: HeaderInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505348372544276055, guid: d38d33a376171e44ea2a9883cc58f32a, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -748560847
       objectReference: {fileID: 0}
     - target: {fileID: 3590554484373787522, guid: d38d33a376171e44ea2a9883cc58f32a, type: 3}
       propertyPath: m_PresetInfoIsWorld
