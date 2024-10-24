@@ -6,11 +6,17 @@ using Photon.Pun;
 public class EnemySpawner : MonoBehaviourPun
 {
     public string enemyPrefabPath;
+    public string bossPrefabPath;
     public float maxEnemies;
+    public float maxBoss;
     public float spawnRadius;
     public float spawnCheckTime;
     private float lastSpawnCheckTime;
     private List<GameObject> curEnemies = new List<GameObject>();
+    private List<GameObject> curBoss = new List<GameObject>();
+
+    public float bossSpawnTime;
+    private float lastBossSpawnTime;
 
     void Update()
     {
@@ -20,6 +26,13 @@ public class EnemySpawner : MonoBehaviourPun
         {
             lastSpawnCheckTime = Time.time;
             TrySpawn();
+        }
+
+        if (Time.time - lastBossSpawnTime > bossSpawnTime)
+        {
+            lastBossSpawnTime = Time.time;
+            TryBossSpawn();
+
         }
     }
 
@@ -40,4 +53,20 @@ public class EnemySpawner : MonoBehaviourPun
         curEnemies.Add(enemy);
     }
 
+    void TryBossSpawn()
+    {
+
+        for (int x = 0; x < curBoss.Count; ++x)
+        {
+            if (!curBoss[x])
+                curBoss.RemoveAt(x);
+        }
+
+        if (curBoss.Count >= maxBoss)
+            return;
+
+        Vector3 randomInCircle = Random.insideUnitCircle * spawnRadius;
+        GameObject boss = PhotonNetwork.Instantiate(bossPrefabPath, transform.position + randomInCircle, Quaternion.identity);
+        curEnemies.Add(boss);
+    }
 }
