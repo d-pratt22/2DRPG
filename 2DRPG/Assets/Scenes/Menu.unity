@@ -902,7 +902,7 @@ MonoBehaviour:
   roomInfoText: {fileID: 740422859}
   startGameButton: {fileID: 1484257055}
   roomListContainer: {fileID: 242511598}
-  roomButtonPrefab: {fileID: 0}
+  roomButtonPrefab: {fileID: 1088394845462644914, guid: 183f972ac74db2b4491c1ae42c7eaad0, type: 3}
 --- !u!1 &538611355
 GameObject:
   m_ObjectHideFlags: 0
